@@ -49,8 +49,8 @@ if len(sys.argv) == 1:
   print('</openbox_pipe_menu>')
 elif len(sys.argv) == 3:
   try:
-    DbusProxyIface(bus.get_object("org.freedesktop.UDisks2", "/org/freedesktop/UDisks2/block_devices/{}".format(sys.argv[1])), "org.freedesktop.UDisks2.Filesystem").CallMethod(sys.argv[2], [])
-    notify("Success", "Successfully {} {}".format("unmounted" if sys.argv[2]=="Unmount" else "mounted", sys.argv[1]))
+    mountPoint = DbusProxyIface(bus.get_object("org.freedesktop.UDisks2", "/org/freedesktop/UDisks2/block_devices/{}".format(sys.argv[1])), "org.freedesktop.UDisks2.Filesystem").CallMethod(sys.argv[2], [])
+    notify("Success", "Successfully {} {} {}".format("unmounted" if sys.argv[2]=="Unmount" else "mounted", sys.argv[1], "" if sys.argv[2]=="Unmount" else "at {}".format(mountPoint)))
   except Exception as e:
     notify("Error {} {}".format("unmounting" if sys.argv[2]=="Unmount" else "mounting", sys.argv[1]), "Error message: {}".format(e))
 
